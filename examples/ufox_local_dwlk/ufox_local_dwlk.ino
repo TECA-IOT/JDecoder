@@ -14,7 +14,7 @@ Bits_t data;
 
 
 void setup() {
-  pinMode(btn,INPUT);
+  
   pinMode(RXLED,OUTPUT);
   
   Serial.begin(115200);
@@ -22,6 +22,14 @@ void setup() {
   
   while(!Serial);  //comentar si usará una fuente de energía externa
 
+  Serial.println("CONFIGURACION TERMINADA");
+  Serial.println("LEENDO ID PAC");
+  for(int i = 0; i<2; i++){
+    String rec = wisol.command("AT$RL");    
+    Serial.print("recibido: ");
+    Serial.println(rec);
+  }
+  
 }
 
 void loop() {
@@ -29,8 +37,6 @@ void loop() {
    String rec = wisol.command("AT$RL");    
    Serial.print("recibido: ");
    Serial.println(rec);
-
-
    //limpiar 
    clean_str_ufox(bufferRx, rec.c_str());                    //se limpia la cadena
    Serial.print("RX:");

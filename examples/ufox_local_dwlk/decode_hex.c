@@ -108,5 +108,7 @@ void clean_str_ufox(char *result, const char * buffer){
       result[j] = buffer[i];
       j++;
     }
+    
   }
+  result[j] = '\0';
 }
