@@ -34,36 +34,45 @@ void setup() {
 
 void loop() {
   
-   String rec = wisol.command("AT$RL");    
-   Serial.print("recibido: ");
-   Serial.println(rec);
-   //limpiar 
-   clean_str_ufox(bufferRx, rec.c_str());                    //se limpia la cadena
-   Serial.print("RX:");
-   Serial.println(bufferRx);
-   convertStringToHEX(hexBuffer, 12, (char*)bufferRx);
-   /*****************************************************/
-   Serial.print("PULSOSA->");
-   Serial.println(GET_UINT32(hexBuffer, BYTE0));
+   String rec = wisol.command("AT$RL");   
+   if(rec.c_str() != ""){
+    Serial.print("recibido: ");
+    Serial.println(rec);
+    //limpiar 
+    clean_str_ufox(bufferRx, rec.c_str());                    //se limpia la cadena
+    Serial.print("RX:");
+    Serial.println(bufferRx);
+    convertStringToHEX(hexBuffer, 12, (char*)bufferRx);
+    /*****************************************************/
+    Serial.print("ID---------->0x");
+    Serial.println(GET_UINT32(hexBuffer, BYTE8),HEX);
+    Serial.print("PULSOSA----->");
+    Serial.println(GET_UINT16(hexBuffer, BYTE0));
 
-   Serial.print("PULSOS->");
-   Serial.println(GET_UINT32(hexBuffer, BYTE4));
+    Serial.print("PULSOS------>");
+    Serial.println(GET_UINT32(hexBuffer, BYTE2));
 
 
-   Serial.print("BYTE->");
-   Serial.println(GET_UINT8(hexBuffer, BYTE8));
-   bits_value(&data, GET_UINT8(hexBuffer, BYTE8));
-   Serial.print("REBOT->");
+    Serial.print("BYTE-------->");
+    Serial.println(GET_UINT8(hexBuffer, BYTE6),HEX);
+    bits_value(&data, GET_UINT8(hexBuffer, BYTE6));
+    Serial.print("REBOT------->");
    
-   Serial.println(data.b7);
-   Serial.print("REFLASH->");
-   Serial.println(data.b6);
-   Serial.print("FRAUDE->");
-   Serial.println(data.b5);
-   
-   Serial.print("CONFIG->");
-   Serial.println(GET_UINT8(hexBuffer, BYTE9));
-   Serial.print("BAT->");
-   Serial.println(GET_UINT16(hexBuffer, BYTE10));
-      
+    Serial.println(data.b7);
+    Serial.print("REFLASH----->");
+    Serial.println(data.b6);
+    Serial.print("FRAUDE------>");
+    Serial.println(data.b5);
+    Serial.print("STATUS_CTRL->");
+    Serial.println(data.b4);
+    Serial.print("S_ENERGIA--->");
+    Serial.println(data.b3);
+    Serial.print("DNLK-------->");
+    Serial.println(data.b2);
+    Serial.print("UPDATE------>");
+    Serial.println(data.b1);
+    Serial.print("CONFIG------>");
+    Serial.println(GET_UINT8(hexBuffer, BYTE7),HEX);
+    
+   }   
 }
