@@ -80,7 +80,7 @@ void convertHEXToString(char *ptrStr, uint8_t *ptrHEX, uint8_t length_hex){
  */
 float get_float_value(uint8_t *hex, uint8_t byte_pos){
     float value; 
-    static uint32_t temp;
+    static uint32_t temp = 0x0000;
     temp = (uint32_t)(GET_UINT32(hex, byte_pos));
     //uint32_t temp = 0x4141eb85;
     value  = (float)(*((float*)&temp));
@@ -109,5 +109,7 @@ void clean_str_ufox(char *result, const char * buffer){
       result[j] = buffer[i];
       j++;
     }
+    
   }
+  result[j] = '\0';
 }
